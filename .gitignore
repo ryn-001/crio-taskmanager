@@ -1,0 +1,37 @@
+# --- General / OS ---
+.DS_Store
+Thumbs.db
+.env
+.env.local
+.env.*.local
+
+# --- Backend Specific ---
+backend/node_modules/
+backend/dist/
+backend/build/
+backend/npm-debug.log*
+backend/yarn-debug.log*
+backend/yarn-error.log*
+backend/.cache/
+
+# --- Frontend Specific ---
+frontend/node_modules/
+frontend/.next/
+frontend/build/
+frontend/dist/
+frontend/out/
+frontend/.parcel-cache/
+frontend/.eslintcache/
+
+# --- Databases & Logs ---
+*.log
+*.sqlite
+backend/data/
+backend/uploads/
+frontend/coverage/
+
+# --- IDEs ---
+.vscode/
+.idea/
+*.swp
+*.swo
