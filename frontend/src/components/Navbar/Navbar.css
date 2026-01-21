@@ -1,0 +1,142 @@
+:root {
+  --primary-green: #2ecc71;
+  --dark-green: #27ae60;
+  --bg-white: #ffffff;
+  --text-dark: #2c3e50;
+  --light-gray: #f8f9fa;
+  --border-color: #e0e0e0;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.8rem 5%;
+  background-color: var(--bg-white);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  font-family: 'Inter', sans-serif;
+}
+
+.navbar-logo {
+  font-size: 1.5rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+}
+
+.logo-icon {
+  background-color: var(--primary-green);
+  color: white;
+  padding: 2px 10px;
+  border-radius: 8px;
+}
+
+.logo-text {
+  color: var(--text-dark);
+}
+
+.navbar-links {
+  display: flex;
+  align-items: center;
+  gap: 2.5rem;
+}
+
+.navbar-links a {
+  text-decoration: none;
+  color: var(--text-dark);
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: color 0.2s;
+}
+
+.navbar-links a:hover {
+  color: var(--primary-green);
+}
+
+.navbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.btn-add-task {
+  background-color: var(--primary-green);
+  color: white;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.btn-add-task:hover {
+  background-color: var(--dark-green);
+}
+
+.btn-outline {
+  background-color: transparent;
+  color: var(--text-dark);
+  border: 1px solid var(--border-color);
+  padding: 8px 18px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.btn-outline:hover {
+  border-color: var(--primary-green);
+  color: var(--primary-green);
+}
+
+.navbar-toggle {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+  gap: 5px;
+}
+
+.bar {
+  width: 25px;
+  height: 3px;
+  background-color: var(--text-dark);
+  border-radius: 3px;
+}
+
+@media (max-width: 850px) {
+  .navbar-toggle {
+    display: flex;
+  }
+
+  .navbar-links {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: var(--bg-white);
+    padding: 2rem 0;
+    box-shadow: 0 10px 15px rgba(0,0,0,0.05);
+    gap: 1.5rem;
+  }
+
+  .navbar-links.active {
+    display: flex;
+  }
+
+  .navbar-actions {
+    flex-direction: column;
+    width: 80%;
+  }
+
+  .navbar-actions button {
+    width: 100%;
+  }
+}
