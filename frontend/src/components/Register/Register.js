@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { 
   TextField, 
   Button, 
@@ -7,8 +7,14 @@ import {
   Box, 
   Paper 
 } from '@mui/material';
+import axios from "axios";
+import {config} from "../../index.js";
+import {useNavigate} from "react-router";
 
 const RegisterForm = () => {
+  
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     fullname: '',
     username: '',
@@ -21,16 +27,35 @@ const RegisterForm = () => {
 
   const validate = () => {
     let tempErrors = {};
-    if (!formData.fullname) tempErrors.fullname = "Full name is required";
-    if (!formData.username) tempErrors.username = "Username is required";
+
+    if (!formData.fullname) {
+      tempErrors.fullname = "Full name is required";
+    } else if (formData.fullname.length < 3) {
+      tempErrors.fullname = "Full name must be at least 3 characters";
+    }
+
+    if (!formData.username) {
+      tempErrors.username = "Username is required";
+    } else if (!/^[a-zA-Z0-9]+$/.test(formData.username)) {
+      tempErrors.username = "Username must only contain letters and numbers (no spaces)";
+    }
+
     if (!formData.email) {
       tempErrors.email = "Email is required";
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
       tempErrors.email = "Email is invalid";
     }
-    if (formData.password.length < 6) {
+
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])/;
+    
+    if (!formData.password) {
+      tempErrors.password = "Password is required";
+    } else if (formData.password.length < 6) {
       tempErrors.password = "Password must be at least 6 characters";
+    } else if (!passwordRegex.test(formData.password)) {
+      tempErrors.password = "Must contain uppercase, lowercase, number, and a symbol (!@#$%^&*)";
     }
+
     if (formData.confirmPassword !== formData.password) {
       tempErrors.confirmPassword = "Passwords do not match";
     }
@@ -47,10 +72,26 @@ const RegisterForm = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (validate()) {
-      console.log("Form Submitted Successfully", formData);
+    if (!validate()) return;
+
+    try {
+        const { fullname, username, email, password } = formData;
+
+        const response = await axios.post(
+            `${config.backendPoint}/api/users/register`,
+            { fullname, username, email, password }, 
+            { withCredentials: true }
+        );
+
+        navigate('/login');
+    } catch (err) {
+        console.error("Server Error:", err.response?.data);
+        
+        if (err.response?.data?.errors) {
+            setErrors(err.response.data.errors);
+        }
     }
   };
 

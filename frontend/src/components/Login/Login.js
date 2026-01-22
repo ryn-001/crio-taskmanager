@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { 
   TextField, 
   Button, 
@@ -8,8 +8,14 @@ import {
   Paper,
   Link
 } from '@mui/material';
+import {useNavigate} from "react-router";
+import axios from "axios";
+import { config } from '../../index.js';
 
 const LoginForm = () => {
+
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     email: '',
     password: ''
@@ -42,10 +48,22 @@ const LoginForm = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (validate()) {
-      console.log("Login Attempt", formData);
+    if (!validate()) return;
+
+    try{
+      const { email, password } = formData;
+
+        const response = await axios.post(
+            `${config.backendPoint}/api/users/login`,
+            { email, password }, 
+            { withCredentials: true }
+        );
+
+        navigate('/');
+    }catch(error){
+      console.log("Error : " + error);
     }
   };
 
