@@ -1,6 +1,11 @@
 const mongoose = require('mongoose');
 
 const taskSchema = new mongoose.Schema({
+    email:{
+        type: mongoose.Schema.Types.String,
+        ref: 'User',
+        required: true
+    },
     title:{
         type: String,
         required: true
@@ -12,7 +17,7 @@ const taskSchema = new mongoose.Schema({
     status:{
         type: String,
         enum: ['TODO','DONE'],
-        default: 'TOOD'
+        default: 'TODO'
     },
     linkedFile:{
         type: Buffer
