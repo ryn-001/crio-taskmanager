@@ -1,10 +1,17 @@
 import { useState } from 'react';
-import {useNavigate} from "react-router";
+import { useNavigate } from "react-router";
+import { useUser } from "../../contexts/UserContext";
 import './Navbar.css';
 
-const Navbar = ({ isLoggedIn }) => {
+const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { user, logout } = useUser();
   const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    await logout();
+    navigate("/login");
+  };
 
   return (
     <nav className="navbar">
@@ -15,10 +22,20 @@ const Navbar = ({ isLoggedIn }) => {
 
       <div className={`navbar-links ${isOpen ? 'active' : ''}`}>
         <div className="navbar-actions">
-          {isLoggedIn ? (
+          {user ? (
             <>
-              <button className="btn-add-task">+ New Task</button>
-              <button className="btn-outline">Logout</button>
+              <div className="user-profile">
+                <div className="avatar">
+                  {user.username ? user.username[0].toUpperCase() : 'U'}
+                </div>
+                <span className="user-name">{user.username}</span>
+              </div>
+              <button className="btn-add-task" onClick={() => navigate("/create-task")}>
+                + New Task
+              </button>
+              <button className="btn-outline" onClick={handleLogout}>
+                Logout
+              </button>
             </>
           ) : (
             <>

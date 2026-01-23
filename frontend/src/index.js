@@ -4,6 +4,7 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {BrowserRouter} from "react-router";
+import { UserProvider } from './contexts/UserContext';
 
 export const config = {
   backendPoint: "http://localhost:8082"
@@ -12,9 +13,11 @@ export const config = {
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <BrowserRouter>
-    <React.StrictMode>
-      <App />
-    </React.StrictMode>
+    <UserProvider>
+      <React.StrictMode>
+        <App />
+      </React.StrictMode>
+    </UserProvider>
   </BrowserRouter>
 );
 

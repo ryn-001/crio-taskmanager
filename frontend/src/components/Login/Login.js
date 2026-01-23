@@ -11,10 +11,12 @@ import {
 import {useNavigate} from "react-router";
 import axios from "axios";
 import { config } from '../../index.js';
+import {useUser} from "../../contexts/UserContext.js";
 
 const LoginForm = () => {
 
   const navigate = useNavigate();
+  const {setUser} = useUser();
 
   const [formData, setFormData] = useState({
     email: '',
@@ -61,7 +63,10 @@ const LoginForm = () => {
             { withCredentials: true }
         );
 
-        navigate('/');
+        if(response.data.success){
+          setUser(response.data.user);
+          navigate('/dashboard');
+        }
     }catch(error){
       console.log("Error : " + error);
     }

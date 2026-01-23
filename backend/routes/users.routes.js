@@ -8,5 +8,6 @@ const UserRouter = express.Router();
 UserRouter.post('/register',validate(UserValidator.registerSchema),UserControllers.registerUser);
 UserRouter.post('/login',validate(UserValidator.loginSchema),UserControllers.loginUser);
 UserRouter.get('/logout',auth,UserControllers.logoutUser);
+UserRouter.get('/me',auth,UserControllers.getMe);
 
 module.exports = UserRouter;

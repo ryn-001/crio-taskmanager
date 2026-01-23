@@ -1,7 +1,7 @@
 const Task = require("../models/tasks.model");
 
 const find = async (email) => {
-    const tasks = await Task.find(email);
+    const tasks = await Task.find({email});
     return tasks;
 }
 

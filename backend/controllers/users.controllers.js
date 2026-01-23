@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken');
 const sendToken = (user,statusCode,res) => {
     const days = Number(process.env.JWT_EXPIRY) || 1;
 
-    const token = jwt.sign({id: user._id}, process.env.JWT_SECRET_KEY, {
+    const token = jwt.sign({ id: user._id, email: user.email }, process.env.JWT_SECRET_KEY, {
         expiresIn: `${days}d`
     })
 
@@ -25,6 +25,23 @@ const sendToken = (user,statusCode,res) => {
         }
     })
 }
+
+const getMe = async (req, res) => {
+    try {
+        const user = await User.findById(req.user.id).select("-password"); 
+
+        if (!user) {
+            return res.status(404).json({ success: false, message: "User not found" });
+        }
+
+        return res.status(200).json({
+            success: true,
+            user
+        });
+    } catch (err) {
+        return res.status(500).json({ success: false, message: err.message });
+    }
+};
 
 const registerUser = async (req,res) => {
     try{
@@ -90,4 +107,4 @@ const logoutUser = (req,res) => {
     }
 }
 
-module.exports = {registerUser,loginUser,logoutUser};
+module.exports = {registerUser,loginUser,logoutUser,getMe};

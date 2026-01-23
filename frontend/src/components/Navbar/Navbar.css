@@ -46,22 +46,37 @@
   gap: 2.5rem;
 }
 
-.navbar-links a {
-  text-decoration: none;
-  color: var(--text-dark);
-  font-weight: 500;
-  font-size: 0.95rem;
-  transition: color 0.2s;
-}
-
-.navbar-links a:hover {
-  color: var(--primary-green);
-}
-
 .navbar-actions {
   display: flex;
   align-items: center;
   gap: 1rem;
+}
+
+.user-profile {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-right: 0.5rem;
+}
+
+.avatar {
+  width: 38px;
+  height: 38px;
+  background-color: var(--primary-green);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1rem;
+  box-shadow: 0 2px 5px rgba(46, 204, 113, 0.2);
+}
+
+.user-name {
+  color: var(--text-dark);
+  font-weight: 600;
+  font-size: 0.95rem;
 }
 
 .btn-add-task {
@@ -134,6 +149,12 @@
   .navbar-actions {
     flex-direction: column;
     width: 80%;
+    margin: 0 auto;
+  }
+
+  .user-profile {
+    margin-right: 0;
+    margin-bottom: 0.5rem;
   }
 
   .navbar-actions button {
