@@ -17,7 +17,7 @@ export default function App() {
 
   return (
     <div className="App">
-      <Navbar isLoggedIn={isLoggedIn} onNewTaskClick={handleOpenModal} />
+      <Navbar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} onNewTaskClick={handleOpenModal} />
       
       <Routes>
         <Route exact path="/" element={<Hero />} />

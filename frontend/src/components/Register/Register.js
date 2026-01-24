@@ -85,7 +85,7 @@ const RegisterForm = () => {
             { withCredentials: true }
         );
 
-        navigate('/login');
+        if(response.data.success) navigate('/login');
     } catch (err) {
         console.error("Server Error:", err.response?.data);
         

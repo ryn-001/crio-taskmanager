@@ -3,7 +3,7 @@ import { useNavigate } from "react-router";
 import { useUser } from "../../contexts/UserContext";
 import './Navbar.css';
 
-const Navbar = ({ onNewTaskClick }) => {
+const Navbar = ({ onNewTaskClick, isLoggedIn, setIsLoggedIn }) => {
   const [isOpen, setIsOpen] = useState(false);
   const { user, logout } = useUser();
   const navigate = useNavigate();
