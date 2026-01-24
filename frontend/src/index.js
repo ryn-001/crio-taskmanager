@@ -7,7 +7,7 @@ import {BrowserRouter} from "react-router";
 import { UserProvider } from './contexts/UserContext';
 
 export const config = {
-  backendPoint: "http://localhost:8082"
+  backendPoint: "https://crio-taskmanager.onrender.com"
 }
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
