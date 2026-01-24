@@ -3,7 +3,7 @@ import { useNavigate } from "react-router";
 import { useUser } from "../../contexts/UserContext";
 import './Navbar.css';
 
-const Navbar = () => {
+const Navbar = ({ onNewTaskClick }) => {
   const [isOpen, setIsOpen] = useState(false);
   const { user, logout } = useUser();
   const navigate = useNavigate();
@@ -30,7 +30,7 @@ const Navbar = () => {
                 </div>
                 <span className="user-name">{user.username}</span>
               </div>
-              <button className="btn-add-task" onClick={() => navigate("/create-task")}>
+              <button className="btn-add-task" onClick={onNewTaskClick}>
                 + New Task
               </button>
               <button className="btn-outline" onClick={handleLogout}>

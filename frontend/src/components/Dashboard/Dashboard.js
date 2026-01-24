@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { config } from "../../index.js";
+import TaskModal from "../TaskForm/TaskForm";
 import "./Dashboard.css";
 
-const Dashboard = () => {
+const Dashboard = ({ modalOpen, handleCloseModal }) => {
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -28,6 +29,28 @@ const Dashboard = () => {
     fetchTasks();
   }, []);
 
+  const handleTaskAdded = (newTask) => {
+    setTasks((prev) => [newTask, ...prev]);
+  };
+
+  const handleToggleStatus = async (task) => {
+    const newStatus = task.status === "DONE" ? "TODO" : "DONE";
+    try {
+      const { data } = await axios.patch(`${config.backendPoint}/api/tasks/update`, {
+        id: task._id,
+        status: newStatus
+      }, {
+        withCredentials: true,
+      });
+
+      if (data.success) {
+        setTasks(tasks.map(t => t._id === task._id ? { ...t, status: newStatus } : t));
+      }
+    } catch (err) {
+      alert("Error updating task status");
+    }
+  };
+
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure?")) return;
     try {
@@ -46,6 +69,12 @@ const Dashboard = () => {
 
   return (
     <div className="dashboard-container">
+      <TaskModal 
+        open={modalOpen} 
+        handleClose={handleCloseModal} 
+        onTaskAdded={handleTaskAdded} 
+      />
+
       <div className="dashboard-header">
         <h1>Your Tasks</h1>
         <span className="task-count">{tasks.length} Total</span>
@@ -59,18 +88,28 @@ const Dashboard = () => {
       ) : (
         <div className="task-grid">
           {tasks.map((task) => (
-            <div key={task._id} className="task-card">
+            <div key={task._id} className={`task-card ${task.status === 'DONE' ? 'completed' : ''}`}>
               <div className="task-body">
-                <h3>{task.title}</h3>
+                <h3 style={{ textDecoration: task.status === 'DONE' ? 'line-through' : 'none' }}>
+                  {task.title}
+                </h3>
                 <p>{task.description}</p>
                 <div className={`status-badge ${task.status}`}>
                   {task.status}
                 </div>
+                <p className="task-deadline">
+                  Due: {new Date(task.deadline).toLocaleDateString()}
+                </p>
               </div>
 
               <div className="task-actions">
+                <button 
+                  className={`btn-status ${task.status === 'DONE' ? 'undo' : 'done'}`}
+                  onClick={() => handleToggleStatus(task)}
+                >
+                  {task.status === 'DONE' ? 'Mark as Todo' : 'Mark as Done'}
+                </button>
                 <button className="btn-edit">Edit</button>
-                <button className="btn-upload">Upload File</button>
                 <button 
                   className="btn-delete" 
                   onClick={() => handleDelete(task._id)}

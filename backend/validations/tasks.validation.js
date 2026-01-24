@@ -1,7 +1,6 @@
 const joi = require('joi');
 
 const taskSchema = joi.object({
-    email: joi.string().email().required(),
     title: joi.string().required(),
     description: joi.string().required(),
     status: joi.string().valid('TODO','DONE').default('TODO'),
@@ -14,7 +13,7 @@ const getTaskSchema = joi.object({
 })
 
 const updateTaskSchema = joi.object({
-    email: joi.string().email().required(),
+    id: joi.string().required(),
     title: joi.string(),
     description: joi.string(),
     status: joi.string().valid('TODO','DONE').default('TODO'),
@@ -24,7 +23,6 @@ const updateTaskSchema = joi.object({
 
 const deleteTaskSchema = joi.object({
     id: joi.string().regex(/^[0-9a-fA-F]{24}$/).required(),
-    email: joi.string().email().required(),
 })
 
 module.exports = {taskSchema,getTaskSchema,updateTaskSchema,deleteTaskSchema};

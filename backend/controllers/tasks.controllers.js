@@ -54,7 +54,12 @@ const deleteTask = async (req, res) => {
 
 const createTask = async (req, res) => {
     try {
-        const taskData = { ...req.body, email: req.user.email };
+        const taskData = { 
+            ...req.body, 
+            email: req.user.email,
+            linkedFile: req.file ? req.file.buffer : null 
+        };
+        
         const newTask = await TaskServices.create(taskData);
         
         return res.status(201).json({
